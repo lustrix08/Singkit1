@@ -16,21 +16,22 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
 
         .section {
             display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
+            width: 90%;
             max-width: 800px;
             text-align: center;
         }
 
         .active {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .gallery-title {
@@ -43,7 +44,7 @@
         .image-gallery {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 30px;
             flex-wrap: wrap;
         }
 
@@ -98,36 +99,49 @@
             margin-top: 30px;
         }
 
-        .confession img {
-            width: 200px;
-            height: auto;
-            margin-bottom: 15px;
-        }
-
         .confession-message {
             font-size: 1.3rem;
+            padding: 10px;
         }
 
         .prompt {
-            font-size: 30px;
+            font-size: 24px;
             font-weight: bold;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .image-gallery {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .flip-card {
+                width: 80%;
+                height: auto;
+            }
+
+            .gallery-title {
+                font-size: 22px;
+            }
+
+            .confession-message {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Background Music -->
     <audio id="backgroundMusic" loop>
         <source src="cut.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
-    <!-- Initial Popup -->
     <div id="popup" class="section active">
         <img src="cat3.gif" alt="Cute Cat">
-        <div class="prompt" id="promptText">Hi Riggs! Tap to continue!🫶</div>
+        <div class="prompt">Hi Riggs! Tap to continue!🫶</div>
     </div>
 
-    <!-- Main Gallery Section -->
     <div id="mainContent" class="section">
         <div class="gallery-title">Our Cute Little Moments</div>
         <p>This image can be flipped</p>
@@ -137,7 +151,7 @@
                     <div class="flip-card-front">
                         <img src="image1.jpg" alt="Memory 1" style="width:100%; height:100%; border-radius: 10px;">
                     </div>
-                    <div class="flip-card-back">I don't have any plan to take a picture with you, kasi I'm shy, but I'm happy we did. I hope you're chill about it.</div>
+                    <div class="flip-card-back">I'm happy we took this picture!</div>
                 </div>
             </div>
             <div class="flip-card">
@@ -145,29 +159,18 @@
                     <div class="flip-card-front">
                         <img src="image2.jpg" alt="Memory 2" style="width:100%; height:100%; border-radius: 10px;">
                     </div>
-                    <div class="flip-card-back">Wag ka! I'm your number one fan and supporter when you're presenting sa HCI, and also your number one fan when you're reciting sa IM1</div>
-                </div>
-            </div>
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <img src="image3.jpg" alt="Memory 3" style="width:100%; height:100%; border-radius: 10px;">
-                    </div>
-                    <div class="flip-card-back">Dito ko na-realize na kaya kong gawin lahat, tangina. Umuwi ako na basang-basa hanggang kaloob-looban, tapos di mo pa ako tinulungan sa pag-akyat sa pool. Tsk tsk charot HAHAHA</div>
+                    <div class="flip-card-back">I'm your number one fan!</div>
                 </div>
             </div>
         </div>
         <button class="next-button" onclick="goToConfession()">Go to the Last Page</button>
     </div>
 
-    <!-- Confession Section -->
     <div id="confessionPage" class="section">
         <img src="cat1.gif" alt="Cute Cat">
         <div class="confession-message">
-            <p>I don't know where to start kasi this is my first confession ever, Riggs, kaya bear with it nalang. HAHAHA. Yun, I know you're aware that I like you, and I'm not expecting anything in return, I just wanted to formally say it using this website that I made just for you.
-
-                So yun, Riggs, I've been admiring you since that night in Ligao, and it's been months na pa-year na nga, so I just wanted to say it properly. Also, I hope that after you read this super cringe webpage, nothing changes between us. We're friends, and let's not be awkward with each other. Par HAHAHA.</p>
-                <div class="gallery-title">Happy Valentine's! 🫶</div>
+            <p>I like you, Riggs! I made this just for you.</p>
+            <div class="gallery-title">Happy Valentine's! 🫶</div>
         </div>
     </div>
 
@@ -180,21 +183,6 @@
             });
             document.getElementById(sectionId).classList.add('active');
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            if (window.innerWidth <= 768) {
-                document.getElementById("promptText").textContent = "Hi Riggs! Tap to continue!🫶";
-            } else {
-                document.getElementById("promptText").textContent = "Hi Riggs! Tap to continue!🫶";
-            }
-        });
-
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Enter") {
-                showSection("mainContent");
-                playMusic();
-            }
-        });
 
         document.addEventListener("click", function() {
             let currentSection = document.querySelector(".section.active");

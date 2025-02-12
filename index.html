@@ -17,6 +17,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
 
         .section {
@@ -39,13 +40,17 @@
             font-weight: 600;
             margin-bottom: 20px;
             color: #ff4d6d;
+            text-align: center;
+            width: 100%;
         }
 
         .image-gallery {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            align-items: center;
+            gap: 20px;
             flex-wrap: wrap;
+            width: 100%;
         }
 
         .flip-card {
@@ -97,6 +102,7 @@
             border-radius: 8px;
             cursor: pointer;
             margin-top: 30px;
+            display: block;
         }
 
         .confession-message {
@@ -114,6 +120,7 @@
             .image-gallery {
                 flex-direction: column;
                 gap: 20px;
+                align-items: center;
             }
 
             .flip-card {
@@ -127,6 +134,10 @@
 
             .confession-message {
                 font-size: 1rem;
+            }
+
+            .next-button {
+                width: 80%;
             }
         }
     </style>
@@ -173,36 +184,5 @@
             <div class="gallery-title">Happy Valentine's! 🫶</div>
         </div>
     </div>
-
-    <script>
-        let musicPlayed = false;
-
-        function showSection(sectionId) {
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-        }
-
-        document.addEventListener("click", function() {
-            let currentSection = document.querySelector(".section.active");
-            if (currentSection.id === "popup") {
-                showSection("mainContent");
-                playMusic();
-            }
-        });
-
-        function goToConfession() {
-            showSection("confessionPage");
-        }
-
-        function playMusic() {
-            let music = document.getElementById("backgroundMusic");
-            if (!musicPlayed) {
-                music.play().catch(error => console.log("Music autoplay failed:", error));
-                musicPlayed = true;
-            }
-        }
-    </script>
 </body>
 </html>

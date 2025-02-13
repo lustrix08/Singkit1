@@ -16,23 +16,43 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            flex-direction: column;
+            overflow-y: auto;
         }
 
         .section {
-            display: none;
-            width: 90%;
-            max-width: 800px;
-            text-align: center;
-        }
+    display: none;
+    position: relative; /* Changed from absolute */
+    width: 80%;
+    
+    max-width: 800px;
+    text-align: center;
+    margin: auto; /* Centering */
+    padding: 20px; /* Adds spacing inside */
+    overflow-y: auto; /* Enables scrolling inside the section */
+    max-height: 90vh; /* Prevents overflow but allows scrolling */
+}
+
+        /* For WebKit browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 10px; /* Scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+    background: #FFD1DC; /* Light pink track */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff4d6d; /* Pink scrollbar handle */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff1e50; /* Darker pink on hover */
+}
 
         .active {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            display: block;
         }
 
         .gallery-title {
@@ -40,17 +60,13 @@
             font-weight: 600;
             margin-bottom: 20px;
             color: #ff4d6d;
-            text-align: center;
-            width: 100%;
         }
 
         .image-gallery {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 20px;
+            gap: 50px;
             flex-wrap: wrap;
-            width: 100%;
         }
 
         .flip-card {
@@ -102,59 +118,38 @@
             border-radius: 8px;
             cursor: pointer;
             margin-top: 30px;
-            display: block;
+        }
+
+        .confession img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 15px;
         }
 
         .confession-message {
             font-size: 1.3rem;
-            padding: 10px;
         }
 
         .prompt {
-            font-size: 24px;
+            font-size: 30px;
             font-weight: bold;
-            padding: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .image-gallery {
-                flex-direction: column;
-                gap: 20px;
-                align-items: center;
-            }
-
-            .flip-card {
-                width: 90%;
-                height: auto;
-            }
-
-            .gallery-title {
-                font-size: 22px;
-                margin-top: 10px;
-            }
-
-            .confession-message {
-                font-size: 1rem;
-            }
-
-            .next-button {
-                width: 80%;
-                margin-bottom: 20px;
-            }
         }
     </style>
 </head>
 <body>
+    <!-- Background Music -->
     <audio id="backgroundMusic" loop>
         <source src="cut.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
+    <!-- Initial Popup -->
     <div id="popup" class="section active">
         <img src="cat3.gif" alt="Cute Cat">
-        <div class="prompt">Hi Riggs! Tap to continue!🫶</div>
+        <div class="prompt" id="promptText">Hi Riggs! Tap to continue!🫶</div>
     </div>
 
+    <!-- Main Gallery Section -->
     <div id="mainContent" class="section">
         <div class="gallery-title">Our Cute Little Moments</div>
         <p>This image can be flipped</p>
@@ -187,44 +182,61 @@
         <button class="next-button" onclick="goToConfession()">Go to the Last Page</button>
     </div>
 
+    <!-- Confession Section -->
     <div id="confessionPage" class="section">
         <img src="cat1.gif" alt="Cute Cat">
         <div class="confession-message">
             <p>I don't know where to start kasi this is my first confession ever, Riggs, kaya bear with it nalang. HAHAHA. Yun, I know you're aware that I like you, and I'm not expecting anything in return, I just wanted to formally say it using this website that I made just for you.
 
                 So yun, Riggs, I've been admiring you since that night in Ligao, and it's been months na pa-year na nga, so I just wanted to say it properly. Also, I hope that after you read this super cringe webpage, nothing changes between us. We're friends, and let's not be awkward with each other. Par HAHAHA.</p>
-            <div class="gallery-title">Happy Valentine's! 🫶</div>
+                <div class="gallery-title">Happy Valentine's! 🫶</div>
         </div>
     </div>
-  <script>
-    let musicPlayed = false;
 
-    function showSection(sectionId) {
-        document.querySelectorAll('.section').forEach(section => {
-            section.classList.remove('active');
-        });
-        document.getElementById(sectionId).classList.add('active');
-    }
+    <script>
+        let musicPlayed = false;
 
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("popup").addEventListener("click", function() {
-            showSection("mainContent");
-            playMusic();
-        });
-    });
-
-    function goToConfession() {
-        showSection("confessionPage");
-    }
-
-    function playMusic() {
-        let music = document.getElementById("backgroundMusic");
-        if (!musicPlayed) {
-            music.play().catch(error => console.log("Music autoplay failed:", error));
-            musicPlayed = true;
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
         }
-    }
-</script>
 
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById("promptText").textContent = "Hi Riggs! Tap to continue!🫶";
+            } else {
+                document.getElementById("promptText").textContent = "Hi Riggs! Tap to continue!🫶";
+            }
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                showSection("mainContent");
+                playMusic();
+            }
+        });
+
+        document.addEventListener("click", function() {
+            let currentSection = document.querySelector(".section.active");
+            if (currentSection.id === "popup") {
+                showSection("mainContent");
+                playMusic();
+            }
+        });
+
+        function goToConfession() {
+            showSection("confessionPage");
+        }
+
+        function playMusic() {
+            let music = document.getElementById("backgroundMusic");
+            if (!musicPlayed) {
+                music.play().catch(error => console.log("Music autoplay failed:", error));
+                musicPlayed = true;
+            }
+        }
+    </script>
 </body>
 </html>
